@@ -139,14 +139,15 @@ export default function AuthForm({ mode }) {
         }
 
         setNotice(COPY.signup.welcome);
-        router.push("/dashboard");
+        router.push("/plan");
         return;
       }
 
-      const { error: failure } = await supabase.auth.signInWithPassword({
-        email: trimmed,
-        password,
-      });
+      const { data: login, error: failure } =
+        await supabase.auth.signInWithPassword({
+          email: trimmed,
+          password,
+        });
 
       if (failure) {
         setError(friendlyError(failure.message, mode));
@@ -155,7 +156,20 @@ export default function AuthForm({ mode }) {
       }
 
       setNotice(COPY.login.welcome);
-      router.push("/dashboard");
+
+      // Signed-in users who haven't completed their quick profile yet go to
+      // /profile first; everyone else goes straight to /dashboard.
+      try {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("user_id")
+          .eq("user_id", login.user.id)
+          .maybeSingle();
+        router.push(profile ? "/dashboard" : "/profile");
+      } catch {
+        router.push("/profile");
+      }
+      return;
     } catch (failure) {
       setError(friendlyError(failure?.message, mode));
       setBusy(false);

@@ -1,0 +1,78 @@
+/* Shared layout for the signed-in screens: one centred card on a soft sage
+   wash, matching the signup/login card. */
+
+.wrap {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 72px) 20px;
+  background:
+    radial-gradient(
+      70% 55% at 50% 0%,
+      rgba(111, 132, 96, 0.12),
+      transparent 72%
+    ),
+    var(--bg);
+}
+
+.card {
+  width: min(440px, 100%);
+  padding: clamp(26px, 4vw, 40px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.cardWide {
+  width: min(760px, 100%);
+}
+
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+}
+
+.title {
+  margin-top: 8px;
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
+}
+
+.lead {
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(111, 132, 96, 0.3);
+  border-top-color: var(--sage);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ink-soft);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}

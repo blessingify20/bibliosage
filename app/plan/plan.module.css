@@ -1,0 +1,126 @@
+/* Plan choice cards. */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ink-soft);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(111, 132, 96, 0.3);
+  border-top-color: var(--sage);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.notice {
+  margin-top: 20px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--sage-tint);
+  border: 1px solid #d3ddcc;
+  color: var(--clay);
+  font-size: var(--text-small);
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+@media (max-width: 600px) {
+  .plans {
+    grid-template-columns: 1fr;
+  }
+}
+
+.planCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.planCard.free {
+  border-color: #d3ddcc;
+}
+
+.planCard.plus {
+  border-color: #e8cf93;
+  background:
+    linear-gradient(180deg, rgba(224, 169, 59, 0.06), transparent 60%),
+    #fff;
+}
+
+.planName {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.price {
+  font-size: var(--text-small);
+  color: var(--ink-soft);
+}
+
+.feats {
+  display: grid;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.feats li {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: var(--text-small);
+  color: var(--ink-soft);
+}
+
+.feats li span {
+  color: var(--sage);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.feats li span.gold {
+  color: var(--gold);
+}
+
+.planCard .btn {
+  margin-top: auto;
+}
+
+.plusBtn {
+  background: var(--gold) !important;
+  color: var(--forest) !important;
+  box-shadow: 0 10px 22px -12px rgba(224, 169, 59, 0.85) !important;
+}
+
+@media (hover: hover) {
+  .plusBtn:hover {
+    background: #d39d31 !important;
+  }
+}
+
+.coming {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
