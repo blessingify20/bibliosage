@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getSupabase } from "@/lib/supabase/client";
+import useSession from "@/lib/supabase/useSession";
 import styles from "./Navbar.module.css";
 
 const LINKS = [
@@ -12,6 +14,8 @@ const LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  // undefined = still checking, so the bar doesn't flash the wrong links.
+  const session = useSession();
 
   // Close the mobile menu if the window grows to desktop width
   useEffect(() => {
@@ -20,6 +24,16 @@ export default function Navbar() {
     mq.addEventListener("change", close);
     return () => mq.removeEventListener("change", close);
   }, []);
+
+  async function onLogout() {
+    setOpen(false);
+    const supabase = getSupabase();
+    try {
+      if (supabase) await supabase.auth.signOut();
+    } catch {
+      // The local session is cleared even when the network call fails.
+    }
+  }
 
   return (
     <header className={styles.header}>
@@ -37,12 +51,29 @@ export default function Navbar() {
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/signup" className={styles.login}>
-            Log in
-          </Link>
-          <Link href="/signup" className="btn">
-            Sign up
-          </Link>
+          {session === undefined ? null : session ? (
+            <>
+              <Link href="/dashboard" className={styles.login}>
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                className={`btn ${styles.navBtn}`}
+                onClick={onLogout}
+              >
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className={styles.login}>
+                Log in
+              </Link>
+              <Link href="/signup" className="btn">
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -72,16 +103,33 @@ export default function Navbar() {
           </Link>
         ))}
         <span className={styles.rule} />
-        <Link href="/signup" onClick={() => setOpen(false)}>
-          Log in
-        </Link>
-        <Link
-          href="/signup"
-          className="btn"
-          onClick={() => setOpen(false)}
-        >
-          Sign up
-        </Link>
+        {session === undefined ? null : session ? (
+          <>
+            <Link href="/dashboard" onClick={() => setOpen(false)}>
+              Dashboard
+            </Link>
+            <button
+              type="button"
+              className={`btn ${styles.navBtn}`}
+              onClick={onLogout}
+            >
+              Log out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link href="/login" onClick={() => setOpen(false)}>
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              className="btn"
+              onClick={() => setOpen(false)}
+            >
+              Sign up
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

@@ -1,0 +1,127 @@
+/* Same centred card as /signup and /login, so the three pages feel like
+   one family. */
+
+.wrap {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 72px) 20px;
+  background:
+    radial-gradient(
+      70% 55% at 50% 0%,
+      rgba(111, 132, 96, 0.12),
+      transparent 72%
+    ),
+    var(--bg);
+}
+
+.card {
+  width: min(520px, 100%);
+  padding: clamp(28px, 4vw, 44px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+}
+
+.title {
+  margin-top: 8px;
+  font-size: clamp(1.85rem, 1.4rem + 1.8vw, 2.5rem);
+}
+
+.lead {
+  margin-top: 10px;
+  color: var(--ink-soft);
+}
+
+.emailRow {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  margin-top: 26px;
+  padding: 18px;
+  background: var(--sage-tint);
+  border: 1px solid #d3ddcc;
+  border-radius: 16px;
+}
+
+.emailLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.email {
+  font-weight: 600;
+  color: var(--clay);
+  overflow-wrap: anywhere;
+}
+
+.logout {
+  margin-top: 26px;
+  padding: 16px 40px;
+  border: 2px solid var(--sage);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--sage-deep);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .logout:hover {
+    background: var(--sage);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+.logout:active {
+  transform: translateY(1px) scale(0.975);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ink-soft);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(111, 132, 96, 0.3);
+  border-top-color: var(--sage);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}

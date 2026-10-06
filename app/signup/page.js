@@ -1,10 +1,10 @@
-export default function Signup() {
-  return (
-    <div className="container" style={{ padding: "140px 0", textAlign: "center" }}>
-      <h1>Sign up</h1>
-      <p style={{ marginTop: "16px" }}>
-        Placeholder page. Sign up and log in are not built yet.
-      </p>
-    </div>
-  );
+import AuthForm from "@/components/AuthForm";
+
+export const metadata = {
+  title: "Sign up · Bibliosage",
+  description: "Create your Bibliosage account and start learning.",
+};
+
+export default function SignupPage() {
+  return <AuthForm mode="signup" />;
 }

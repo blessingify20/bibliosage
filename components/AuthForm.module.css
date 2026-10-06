@@ -1,0 +1,162 @@
+/* Shared by /signup and /login: one centred card on a soft sage wash. */
+
+.wrap {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 72px) 20px;
+  background:
+    radial-gradient(
+      70% 55% at 50% 0%,
+      rgba(111, 132, 96, 0.12),
+      transparent 72%
+    ),
+    var(--bg);
+}
+
+.card {
+  width: min(440px, 100%);
+  padding: clamp(26px, 4vw, 40px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+}
+
+.title {
+  margin-top: 8px;
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
+}
+
+.lead {
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+
+.field label {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.field input::placeholder {
+  color: #97a49a;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 4px rgba(111, 132, 96, 0.18);
+}
+
+.field input:disabled {
+  background: var(--sage-tint);
+  color: var(--ink-soft);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.error,
+.notice {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
+.error {
+  background: #f9e9e3;
+  border: 1px solid #eec9ba;
+  color: #7a3d24;
+}
+
+.notice {
+  background: var(--sage-tint);
+  border: 1px solid #d3ddcc;
+  color: var(--clay);
+}
+
+.submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.submit:disabled {
+  opacity: 0.85;
+  cursor: wait;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alt {
+  margin-top: 22px;
+  text-align: center;
+  font-size: var(--text-small);
+  color: var(--ink-soft);
+}
+
+.alt a {
+  color: var(--sage-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.alt a:hover {
+  color: var(--sage);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}

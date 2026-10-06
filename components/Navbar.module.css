@@ -127,6 +127,13 @@
   margin-block: 10px;
 }
 
+/* A real <button> in the bar; the global .btn look, minus the browser's
+   default button chrome. */
+.navBtn {
+  border: 0;
+  cursor: pointer;
+}
+
 @media (min-width: 861px) {
   .links,
   .actions {
