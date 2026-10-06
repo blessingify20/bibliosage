@@ -1,0 +1,495 @@
+/* =========================================================
+   BIBLIOSAGE - global styles
+   Colours, type scale, buttons, textures, scroll-fade
+   ========================================================= */
+
+/* ---------- the two typefaces ----------
+   Fraunces (headings) and Lexend (everything else), both variable fonts
+   covering weights 100-900. The files sit in /public/fonts and are
+   downloaded once, so the page never waits on — or fails because of —
+   someone else's server while building or running.
+
+   Google splits each family into subsets by character range, so there
+   are two files per family. The latin one covers ordinary English
+   text; latin-ext exists mainly for the naira sign (U+20A6) in the
+   pricing cards, which the latin subset does not include. The browser
+   only fetches the file whose range it actually needs. */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/lexend-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/lexend-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+:root {
+  /* The two typefaces declared above. Each carries its own fallback
+     stack, because a few rules use the variable on its own (the button
+     and a couple of cards) with no fallback of their own. */
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
+
+  /* Colours from the design brief */
+  --bg: #faf7f2;
+  --sage: #6f8460;
+  --forest: #14201a;
+  --gold: #e0a93b;
+
+  /* Supporting tones made from the four colours above */
+  --ink: #14201a;
+  --ink-soft: #4a5a50;
+  --card: #ffffff;
+  --line: #e8e1d6;
+  --sage-tint: #eef1e9;
+  --sage-deep: #62785a;
+  --clay: #33473b;
+
+  /* ONE type scale, used everywhere (unchanged) */
+  --text-h1: clamp(2.375rem, 1.55rem + 3.6vw, 3.5rem); /* 38px -> 56px */
+  --text-h2: clamp(1.75rem, 1.35rem + 1.75vw, 2.25rem); /* 28px -> 36px */
+  --text-h3: clamp(1.25rem, 1.13rem + 0.5vw, 1.5rem); /* 20px -> 24px */
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16px -> 18px */
+  --text-small: 0.9375rem; /* 15px */
+
+  /* Spacing */
+  --space-section: clamp(64px, 7.5vw, 112px);
+  --gap: clamp(16px, 2vw, 24px);
+  --radius: 20px;
+
+  /* The height of the navigation bar. It sits at the top of the page, so the
+     hero leaves room for it, and scroll-padding-top stops anchor jumps just
+     below it. */
+  --nav-h: 77px;
+
+  /* Soft shadows */
+  --shadow-card: 0 2px 10px -4px rgba(20, 32, 26, 0.1);
+  --shadow-lift: 0 22px 40px -26px rgba(20, 32, 26, 0.4);
+  --shadow-btn: 0 10px 22px -12px rgba(111, 132, 96, 0.85);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* jumping to a section stops it just below the navigation bar. This is done
+     here, once, rather than on each section: the two would add up and push the
+     section twice as far down as it needs to go. */
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* subtle paper grain over the whole page (pure SVG, no image file) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.34'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--forest);
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- shared building blocks ---------- */
+
+.container {
+  width: min(1120px, 100% - 40px);
+  margin-inline: auto;
+}
+
+@media (min-width: 720px) {
+  .container {
+    width: min(1120px, 100% - 64px);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Every section follows the same shape:
+   a heading, an optional sub-line, then content.
+
+   Each one fills the screen, with its content centred in it, and grows if the
+   content is taller than the screen (which happens on small phones).
+   100svh is used rather than a fixed height so the mobile browser bar coming
+   and going never cuts a section short. */
+.section {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: var(--space-section);
+}
+
+/* The drifting leaves are allowed to hang off the edge of a section, but they
+   must not be allowed to make the page wider than the screen, or a phone
+   shrinks the whole page to fit them. `clip` trims them off at the page edge
+   without turning <main> into a scroll box. */
+main {
+  overflow-x: clip;
+}
+
+/* soft leaf shapes in the corners, behind the content */
+.deco {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  color: var(--sage);
+  opacity: 0.09;
+}
+
+.sectionHead {
+  max-width: 720px;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.sectionHead p {
+  margin-top: 14px;
+  color: var(--ink-soft);
+}
+
+.sectionHead--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* alternating light / tinted section backgrounds */
+.tint {
+  background: var(--sage-tint);
+}
+
+.dark {
+  background: var(--forest);
+  color: #fff;
+}
+
+/* --- hand-drawn accents --- */
+
+/* gold underline, used under "change you" only */
+.underline {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.underline svg {
+  position: absolute;
+  left: 0;
+  bottom: -0.16em;
+  width: 100%;
+  height: 0.3em;
+  overflow: visible;
+}
+
+.underline svg path {
+  vector-effect: non-scaling-stroke;
+  /* the gold stroke draws itself on when the page loads
+     (pathLength="1" turns the length into a simple 0 -> 1) */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawStroke 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* highlighter stroke behind a few key words */
+.mark {
+  background: linear-gradient(
+    transparent 56%,
+    rgba(224, 169, 59, 0.34) 56%,
+    rgba(224, 169, 59, 0.34) 92%,
+    transparent 92%
+  );
+  padding-inline: 0.06em;
+}
+
+/* a dashed hand-drawn rule */
+.dashRule {
+  height: 1px;
+  border: 0;
+  border-top: 1.5px dashed var(--line);
+}
+
+/* --- cards --- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(20px, 2.4vw, 28px);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+/* phones have no hover, so tapping gives the same small lift */
+.lift:active {
+  transform: translateY(-2px);
+}
+
+/* --- one button style everywhere --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 34px;
+  border-radius: 999px;
+  background: var(--sage);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  box-shadow: var(--shadow-btn);
+  transition: background-color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    background: #5f7451;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px -12px rgba(111, 132, 96, 0.95);
+  }
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.975);
+}
+
+/* ---------- things that draw themselves ----------
+   The mascot's leaves and the pricing ticks both use pathLength="1",
+   so the whole stroke is just the number 1. */
+
+.sproutLeaf {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: right center;
+  transform: scale(0.15) rotate(-22deg);
+  transition: opacity 0.55s ease var(--d, 0ms),
+    transform 0.65s cubic-bezier(0.3, 1.3, 0.5, 1) var(--d, 0ms);
+}
+
+.sproutLeaf[data-origin="left"] {
+  transform-origin: left center;
+  transform: scale(0.15) rotate(22deg);
+}
+
+.sproutLeaf[data-on="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.tickDraw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.55s ease-out;
+}
+
+[data-reveal].is-in .tickDraw {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- gentle scroll-fade ----------
+   The "reveal-ready" class is only added by JavaScript, so the
+   page still shows normally if scripts are blocked. */
+
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.reveal-ready [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal] {
+  transition: opacity 0.75s ease-out, transform 0.75s ease-out;
+  /* --i lets a row of cards arrive one after another */
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* the first "Sound familiar" memory fades a little, the way an old
+   memory does. This lives here, keyed off data-memory, because a class
+   name inside a CSS module gets renamed and would stop matching. */
+[data-memory="true"] p {
+  transition: opacity 1.6s ease 1s;
+}
+
+[data-memory="true"].is-in p {
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* nothing moves: every animation and transition is switched off,
+     and anything that was going to be drawn is simply drawn */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  .btn:hover,
+  .btn:active,
+  .lift:hover,
+  [data-memory="true"].is-in p {
+    transform: none;
+    opacity: 1;
+  }
+  .underline svg path,
+  .sproutLeaf,
+  .tickDraw {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* the drifting leaves and the blinking caret simply stop */
+  .deco,
+  .caret {
+    animation: none;
+  }
+}

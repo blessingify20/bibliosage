@@ -1,0 +1,33 @@
+/* =========================================================
+   The photographs behind The Bibliosage Loop
+   ------------------------------------------------------------
+   All four photos are stacked in the same spot and crossfade
+   with each other, so only one is ever seen. The tint on top
+   is what keeps the white text readable over any picture.
+   ========================================================= */
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--forest);
+}
+
+.photo {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.photo[data-on="true"] {
+  opacity: 1;
+}
+
+/* the deep forest wash over the photographs */
+
+.tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 32, 26, 0.78);
+}

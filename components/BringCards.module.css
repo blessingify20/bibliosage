@@ -1,0 +1,171 @@
+/* =========================================================
+   The "Bring anything" cards
+   ------------------------------------------------------------
+   Every card sits in the same grid cell, so the row of cards is
+   exactly as tall as its tallest card and never changes size
+   while the pages turn. data-pos says where each card is:
+   current (showing), ahead (waiting on the right) or behind
+   (already turned, on the left).
+   ========================================================= */
+
+.box {
+  position: relative;
+}
+
+/* the frame the pages turn inside */
+
+.stage {
+  display: grid;
+  /* a card that is turning leaves the frame, not the section */
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.card {
+  grid-area: 1 / 1;
+  padding: clamp(20px, 2.4vw, 28px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-small);
+  /* the card fades out well before it reaches the edge of the frame,
+     so the frame is never seen cutting through it */
+  transition: transform 0.62s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.32s ease, box-shadow 0.25s ease;
+}
+
+/* the card on top, square and fully readable */
+
+.card[data-pos="current"] {
+  z-index: 2;
+  transform: none;
+  opacity: 1;
+}
+
+/* waiting on the right, and the page that has just turned away on the left */
+
+.card[data-pos="ahead"] {
+  z-index: 1;
+  transform: translateX(42%) rotate(6deg) scale(0.97);
+  opacity: 0;
+}
+
+.card[data-pos="behind"] {
+  z-index: 1;
+  transform: translateX(-42%) rotate(-6deg) scale(0.97);
+  opacity: 0;
+}
+
+.card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  background: var(--sage-tint);
+  color: var(--sage);
+  transition: transform 0.25s ease;
+}
+
+@media (hover: hover) {
+  .card[data-pos="current"]:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+  .card[data-pos="current"]:hover .icon {
+    animation: iconWiggle 0.7s ease-in-out;
+  }
+}
+
+/* tapping on a phone gets the same little wiggle */
+.card[data-pos="current"]:active .icon {
+  animation: iconWiggle 0.5s ease-in-out;
+}
+
+@keyframes iconWiggle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  30% {
+    transform: rotate(-6deg) scale(1.06);
+  }
+  65% {
+    transform: rotate(4deg) scale(1.03);
+  }
+}
+
+/* ---------- the dots ---------- */
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 20px;
+}
+
+/* a small dot inside a comfortable button, so it is easy to tap */
+
+.dot {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.dot::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(20, 32, 26, 0.18);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.dot[data-on="true"]::after {
+  background: var(--sage);
+  transform: scale(1.3);
+}
+
+/* =========================================================
+   Reduce motion: no page turns, just the five cards in a grid
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    overflow: visible;
+  }
+
+  .card[data-pos] {
+    grid-area: auto;
+    transform: none;
+    opacity: 1;
+  }
+
+  .dots {
+    display: none;
+  }
+}
+
+@media (min-width: 861px) {
+  @media (prefers-reduced-motion: reduce) {
+    .stage {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}

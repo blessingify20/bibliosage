@@ -1,0 +1,94 @@
+/* The questions-and-answers accordion. */
+
+.list {
+  display: grid;
+  gap: 12px;
+  max-width: 820px;
+}
+
+.item {
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.item[data-open="true"] {
+  border-color: var(--sage);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 24px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .trigger:hover {
+    color: var(--sage);
+  }
+}
+
+/* plus that turns into a minus when the answer is open */
+.icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sage);
+  transform: translateY(-50%);
+  transition: transform 0.3s ease, opacity 0.25s ease;
+}
+
+.icon::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.item[data-open="true"] .icon::after {
+  transform: translateY(-50%) rotate(0deg);
+  opacity: 0;
+}
+
+/* the smooth part: a grid row that opens from zero height */
+
+.answerWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.3, 0.9, 0.3, 1);
+}
+
+.item[data-open="true"] .answerWrap {
+  grid-template-rows: 1fr;
+}
+
+.answer {
+  overflow: hidden;
+}
+
+.answer p {
+  padding: 0 24px 24px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}

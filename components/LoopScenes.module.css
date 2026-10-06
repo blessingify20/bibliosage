@@ -1,0 +1,129 @@
+/* =========================================================
+   The four mini scenes inside The Bibliosage Loop cards
+   ------------------------------------------------------------
+   Every part starts in a "before" state and moves to its
+   "after" state when data-on flips to true. The --d custom
+   property on each element is the delay, which is how the
+   scenes play one after another.
+   ========================================================= */
+
+.scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  color: #fff;
+  overflow: visible;
+}
+
+/* --- a shape that drifts in and settles --- */
+
+.floatItem {
+  opacity: 0;
+  transform: translate(var(--fx, 0px), var(--fy, 16px)) scale(0.92);
+  transition: opacity 0.5s ease var(--d, 0ms),
+    transform 0.75s cubic-bezier(0.25, 1.1, 0.4, 1) var(--d, 0ms);
+}
+
+.floatItem[data-on="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- a line of "text" that draws across from left to right --- */
+
+.growW {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.4, 1) var(--d, 0ms);
+}
+
+.growW[data-on="true"] {
+  transform: scaleX(1);
+}
+
+/* --- the lightbulb's warm glow --- */
+
+.glow {
+  fill: rgba(224, 169, 59, 0.18);
+  stroke: none;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.8s ease var(--d, 0ms);
+}
+
+.glow[data-on="true"] {
+  opacity: 1;
+  animation: breathe 3.4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.bulb {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transform: scale(0.6);
+  transition: opacity 0.6s ease var(--d, 0ms),
+    transform 0.8s cubic-bezier(0.3, 1.25, 0.5, 1) var(--d, 0ms);
+}
+
+.bulb[data-on="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- a ring that opens out --- */
+
+.ring {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.45);
+  transition: opacity 0.5s ease var(--d, 0ms),
+    transform 0.7s cubic-bezier(0.25, 1, 0.4, 1) var(--d, 0ms);
+}
+
+.ring[data-on="true"] {
+  opacity: 0.55;
+  transform: none;
+}
+
+/* --- a tick that draws itself --- */
+
+.tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.6s ease-out var(--d, 0ms);
+}
+
+.tick[data-on="true"] {
+  stroke-dashoffset: 0;
+}
+
+/* --- the sprout growing from nothing --- */
+
+.miniSprout {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transform: scale(0.5);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.3, 1.25, 0.5, 1);
+}
+
+.miniSprout[data-on="true"] {
+  opacity: 1;
+  transform: none;
+}

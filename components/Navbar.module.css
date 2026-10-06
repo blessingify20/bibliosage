@@ -1,0 +1,139 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 76px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.logo svg {
+  color: var(--sage);
+}
+
+.links {
+  display: none;
+  gap: 34px;
+  margin-inline: auto;
+}
+
+.links a,
+.login {
+  position: relative;
+  font-size: var(--text-small);
+  color: var(--ink-soft);
+  transition: color 0.2s ease;
+}
+
+.links a:hover,
+.login:hover {
+  color: var(--sage);
+}
+
+.actions {
+  display: none;
+  align-items: center;
+  gap: 20px;
+}
+
+.actions :global(.btn) {
+  padding: 12px 26px;
+  font-size: var(--text-small);
+}
+
+/* burger button (mobile) */
+.burger {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  background: none;
+  color: var(--forest);
+}
+
+.burgerBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 22px;
+  height: 16px;
+}
+
+.burgerBox span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.burgerBox[data-open="true"] span:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.burgerBox[data-open="true"] span:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* mobile menu: hidden until the burger opens it. The `display` here has to be
+   set explicitly, because an author rule like this would otherwise win over
+   the browser's own rule for the hidden attribute. */
+.mobile {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 20px 26px;
+  border-top: 1px solid var(--line);
+}
+
+.mobile[data-open="true"] {
+  display: flex;
+}
+
+.mobile a {
+  padding: 12px 0;
+  font-size: var(--text-body);
+}
+
+.mobile :global(.btn) {
+  margin-top: 8px;
+}
+
+.rule {
+  height: 1px;
+  background: var(--line);
+  margin-block: 10px;
+}
+
+@media (min-width: 861px) {
+  .links,
+  .actions {
+    display: flex;
+  }
+  .burger,
+  .mobile {
+    display: none;
+  }
+}

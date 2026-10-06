@@ -1,0 +1,469 @@
+/* =========================================================
+   Landing page sections
+   ========================================================= */
+
+/* ---------- Hero ---------- */
+
+/* The hero is the one section that does not use .section, because the
+   navigation bar already sits above it. It fills the rest of the screen. */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100svh - var(--nav-h));
+  padding-block: clamp(44px, 5vw, 80px) clamp(56px, 7vw, 104px);
+}
+
+.heroGrid {
+  display: grid;
+  gap: clamp(40px, 5vw, 64px);
+  align-items: center;
+}
+
+.heroCopy h1 {
+  max-width: 15ch;
+}
+
+.lead {
+  margin-top: 22px;
+  max-width: 46ch;
+  color: var(--ink-soft);
+}
+
+.searchRow {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.searchRow :global(.btn) {
+  width: 100%;
+}
+
+/* the large rounded panel: Understand. / Think. / Apply. */
+
+.heroPanel {
+  position: relative;
+  width: min(430px, 100%);
+  margin-inline: auto;
+  padding: clamp(36px, 5.5vw, 56px) clamp(28px, 4vw, 46px);
+  border-radius: 34px;
+  background: var(--forest);
+  box-shadow: 0 30px 60px -34px rgba(20, 32, 26, 0.6);
+  overflow: hidden;
+}
+
+.heroPanel p {
+  position: relative;
+  color: #fff;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+/* a leaf tucked into the corner of the panel */
+.panelLeaf {
+  position: absolute;
+  right: -46px;
+  bottom: -58px;
+  width: 190px;
+  height: 190px;
+  color: var(--sage);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* leaves drifting slowly behind the hero */
+
+.driftA {
+  top: -70px;
+  right: -90px;
+  opacity: 0.07;
+  animation: drift 34s ease-in-out infinite;
+}
+
+.driftB {
+  top: 8%;
+  left: -60px;
+  opacity: 0.06;
+  animation: drift 44s ease-in-out infinite reverse;
+  animation-delay: -12s;
+}
+
+.driftC {
+  bottom: -6%;
+  right: 26%;
+  opacity: 0.05;
+  animation: drift 52s ease-in-out infinite;
+  animation-delay: -28s;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(10px, -22px, 0) rotate(5deg);
+  }
+  66% {
+    transform: translate3d(-12px, 14px, 0) rotate(-4deg);
+  }
+}
+
+/* ---------- Section 2: Sound familiar? ---------- */
+
+.familiarList {
+  display: grid;
+  gap: 14px;
+}
+
+.familiarCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  font-size: var(--text-small);
+}
+
+/* the fading first memory is set up in globals.css, using data-memory,
+   so it keeps working whatever this file's class names get renamed to */
+
+.cardIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: var(--sage-tint);
+  color: var(--sage);
+}
+
+.familiarClose {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(32px, 4vw, 52px);
+  padding-left: clamp(20px, 2.5vw, 28px);
+  border-left: 3px solid var(--gold);
+}
+
+.familiarClose p {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.closeSprout {
+  position: absolute;
+  left: 22px;
+  bottom: -26px;
+  color: var(--sage);
+  opacity: 0.55;
+}
+
+/* ---------- Section 3: The Shift ----------
+   Two columns: the words on the left, the turning cards on the right.
+   On a phone they stack, words first. */
+
+.shiftGrid {
+  display: grid;
+  gap: clamp(32px, 6vw, 48px);
+}
+
+.shiftCopy {
+  max-width: 62ch;
+  margin-top: 18px;
+  color: var(--ink-soft);
+}
+
+.subhead {
+  margin-bottom: 22px;
+}
+
+.bringNote {
+  margin-top: clamp(24px, 3vw, 34px);
+  max-width: 56ch;
+  color: var(--ink-soft);
+}
+
+.decoShift {
+  bottom: -70px;
+  left: -80px;
+}
+
+/* ---------- Section 4: The Bibliosage Loop (dark) ---------- */
+
+/* the dark band is tightened so it does not tower over the compact deck */
+
+.loop {
+  padding-block: clamp(44px, 4.5vw, 72px);
+}
+
+.decoLoop {
+  color: #fff;
+  top: -60px;
+  right: -80px;
+  opacity: 0.06;
+}
+
+/* ---------- Section 5: See how a session feels. ---------- */
+
+.session :global(.sectionHead) {
+  margin-bottom: clamp(28px, 3.5vw, 44px);
+}
+
+/* ---------- Section 6: Why I built this ---------- */
+
+.whyGrid {
+  display: grid;
+  gap: clamp(30px, 4vw, 52px);
+}
+
+.whyCopy {
+  display: grid;
+  gap: 16px;
+  max-width: 62ch;
+  color: var(--ink-soft);
+}
+
+.signature {
+  color: var(--ink);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+/* "Read. Cram. Pass. Forget." set on its own lines, with air around it */
+
+.cycle {
+  padding-left: clamp(16px, 2vw, 24px);
+  border-left: 3px solid var(--gold);
+  color: var(--forest);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  margin-block: 6px clamp(16px, 2vw, 26px);
+}
+
+.cycle span {
+  display: block;
+}
+
+.pullQuote {
+  align-self: start;
+  background: var(--card);
+  padding: clamp(28px, 3.5vw, 40px);
+}
+
+.pullQuote p {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.quoteAccent {
+  white-space: nowrap;
+  background: linear-gradient(
+    transparent 58%,
+    rgba(224, 169, 59, 0.45) 58%,
+    rgba(224, 169, 59, 0.45) 94%,
+    transparent 94%
+  );
+  padding-inline: 0.08em;
+}
+
+.sprig {
+  color: var(--sage);
+  margin-bottom: 18px;
+}
+
+/* ---------- Section 7: Pricing ---------- */
+
+.priceGrid {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.priceCard {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 3.5vw, 44px);
+  border-radius: 26px;
+  box-shadow: var(--shadow-lift);
+}
+
+/* the plan name and the small gold badge sit on one line */
+
+.planTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.planName {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+.badge {
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--forest);
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.planPrice {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: var(--text-h3);
+  color: var(--ink-soft);
+}
+
+.planPrice span {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.25rem, 1.8rem + 2vw, 3rem);
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -0.02em;
+}
+
+.priceCard .dashRule {
+  margin-block: 20px 22px;
+}
+
+.featureList {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+  font-size: var(--text-small);
+}
+
+.featureList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.check {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--sage-tint);
+  color: var(--sage-deep);
+}
+
+.priceBtn {
+  width: 100%;
+  margin-top: auto;
+}
+
+/* ---------- Section 8: FAQ ---------- */
+
+.decoFaq {
+  bottom: -60px;
+  right: -70px;
+  opacity: 0.07;
+}
+
+/* ---------- Section 9: Final CTA ---------- */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  text-align: center;
+}
+
+.cta h2 {
+  max-width: 20ch;
+  margin-inline: auto;
+}
+
+.cta p {
+  max-width: 46ch;
+  margin: 18px auto 32px;
+  color: var(--ink-soft);
+}
+
+.ctaSprout {
+  margin: 0 auto 26px;
+  color: var(--sage);
+}
+
+.ctaSparkle {
+  top: 22%;
+  left: 12%;
+  color: var(--gold);
+  opacity: 0.55;
+}
+
+/* =========================================================
+   Breakpoints (mobile first)
+   ========================================================= */
+
+@media (min-width: 600px) {
+  .priceGrid {
+    gap: 22px;
+  }
+}
+
+@media (min-width: 861px) {
+  .heroGrid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(40px, 4vw, 64px);
+  }
+  .shiftGrid {
+    grid-template-columns: 1.02fr 0.98fr;
+    gap: clamp(40px, 5vw, 72px);
+    align-items: center;
+  }
+  .searchRow {
+    flex-direction: row;
+    align-items: center;
+  }
+  .searchRow :global(.btn) {
+    width: auto;
+    flex: 0 0 auto;
+  }
+  .heroPanel {
+    width: 100%;
+    margin-inline: 0;
+    justify-self: stretch;
+  }
+  .whyGrid {
+    grid-template-columns: 1.45fr 1fr;
+    align-items: start;
+  }
+  .familiarList {
+    grid-template-columns: 1fr 1fr;
+  }
+  .priceGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

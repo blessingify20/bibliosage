@@ -1,0 +1,25 @@
+/* The search-style box in the hero. It is a visual mock, not a real input. */
+
+.box {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-height: 62px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  color: #66736b;
+  font-size: var(--text-small);
+  /* keep long placeholder text inside the pill on a small phone */
+  overflow: hidden;
+}
+
+.text {
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
