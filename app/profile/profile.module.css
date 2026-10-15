@@ -95,6 +95,82 @@
   cursor: wait;
 }
 
+.note {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--sage-tint);
+  border: 1px solid #d3ddcc;
+  color: var(--clay);
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
+.progressWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sage-tint);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sage), var(--sage-deep));
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.cardQ {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.cardQ label {
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.optional {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--sage-tint);
+  color: var(--sage-deep);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.sectionTitle {
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .spinner {
     animation-duration: 1.6s;

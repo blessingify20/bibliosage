@@ -7,6 +7,7 @@ import { getSupabase } from "@/lib/supabase/client";
 import useRequireAuth from "@/lib/supabase/useRequireAuth";
 import {
   countSessionsThisMonth,
+  getProfile,
   getSubscription,
   listSessions,
 } from "@/lib/supabase/data";
@@ -16,6 +17,8 @@ import styles from "./dashboard.module.css";
 const LIMITS = { free: 10, plus: 30 };
 const PLAN_NAMES = { free: "Free", plus: "Plus" };
 const MAX_PASTE = 6000;
+const MAX_TOPIC = 300;
+const MORE_KEYS = ["doing", "enjoy", "situation", "strongAt", "learnStyle"];
 
 function preview(text) {
   if (!text) return "Session";
@@ -52,7 +55,7 @@ export default function DashboardView() {
   const [inputType, setInputType] = useState("paste");
   const [inputText, setInputText] = useState("");
   const [composerError, setComposerError] = useState("");
-  const [tutorNotice, setTutorNotice] = useState("");
+  const [extraEmpty, setExtraEmpty] = useState(null);
 
   async function loadCounters() {
     const supabase = getSupabase();
@@ -94,6 +97,18 @@ export default function DashboardView() {
       setSessions(null);
       setSessionsError("Couldn't load your sessions just now.");
     }
+
+    // Do they have any of the optional "more personal" answers yet?
+    try {
+      const profile = await getProfile(supabase, session.user.id);
+      const more =
+        profile && typeof profile.more === "object" && profile.more ? profile.more : null;
+      const filled =
+        more && MORE_KEYS.some((k) => typeof more[k] === "string" && more[k].trim());
+      setExtraEmpty(!filled);
+    } catch {
+      setExtraEmpty(false);
+    }
   }
 
   useEffect(() => {
@@ -125,29 +140,38 @@ export default function DashboardView() {
   const limit = LIMITS[plan] ?? LIMITS.free;
   const planName = PLAN_NAMES[plan] ?? "Free";
   const limitReached = used !== null && used >= limit;
-  const overPaste = inputText.length > MAX_PASTE;
+  const maxLen = inputType === "topic" ? MAX_TOPIC : MAX_PASTE;
+  const overLimit = inputText.length > maxLen;
 
   function onStart() {
     setComposerError("");
-    setTutorNotice("");
 
-    if (inputType === "topic") {
-      setTutorNotice("The tutor is coming next.");
-      return;
-    }
     if (!gain.trim()) {
       setComposerError("Tell us what you'd like to gain from this session, then press Start.");
       return;
     }
-    if (!inputText.trim()) {
-      setComposerError("Paste the passage you want to work through, then press Start.");
-      return;
-    }
-    if (overPaste) {
-      setComposerError(
-        `That's ${inputText.length.toLocaleString()} characters — one session works best with 6,000 or fewer. Please trim it a little.`
-      );
-      return;
+    if (inputType === "topic") {
+      if (!inputText.trim()) {
+        setComposerError("Type a topic or question you'd like to explore, then press Start.");
+        return;
+      }
+      if (overLimit) {
+        setComposerError(
+          `That's ${inputText.length} characters — a topic works best with 300 or fewer. Please shorten it.`
+        );
+        return;
+      }
+    } else {
+      if (!inputText.trim()) {
+        setComposerError("Paste the passage you want to work through, then press Start.");
+        return;
+      }
+      if (overLimit) {
+        setComposerError(
+          `That's ${inputText.length.toLocaleString()} characters — one session works best with 6,000 or fewer. Please trim it a little.`
+        );
+        return;
+      }
     }
     if (limitReached) {
       setComposerError(
@@ -163,7 +187,11 @@ export default function DashboardView() {
     try {
       sessionStorage.setItem(
         "bibliosage.pending." + id,
-        JSON.stringify({ inputText: inputText.trim(), sessionGoal: gain.trim() })
+        JSON.stringify({
+          inputType,
+          inputText: inputText.trim(),
+          sessionGoal: gain.trim(),
+        })
       );
     } catch {
       setComposerError("We couldn't start the session in this browser. Please try again.");
@@ -201,6 +229,9 @@ export default function DashboardView() {
             {planHint}
           </p>
         ) : null}
+        <Link className={styles.personalLink} href="/profile/edit">
+          Make my examples more personal
+        </Link>
       </div>
 
       <section className={styles.block} aria-label="Sessions used this month">
@@ -243,10 +274,7 @@ export default function DashboardView() {
             role="tab"
             aria-selected={inputType === "paste"}
             className={inputType === "paste" ? styles.tabActive : styles.tab}
-            onClick={() => {
-              setInputType("paste");
-              setTutorNotice("");
-            }}
+            onClick={() => setInputType("paste")}
           >
             Paste it
           </button>
@@ -255,10 +283,7 @@ export default function DashboardView() {
             role="tab"
             aria-selected={inputType === "topic"}
             className={inputType === "topic" ? styles.tabActive : styles.tab}
-            onClick={() => {
-              setInputType("topic");
-              setTutorNotice("");
-            }}
+            onClick={() => setInputType("topic")}
           >
             Type a topic
           </button>
@@ -276,28 +301,31 @@ export default function DashboardView() {
           onChange={(event) => setInputText(event.target.value)}
         />
 
-        {inputType === "paste" ? (
+        {inputType === "topic" ? (
           <p
-            className={overPaste ? styles.counterOver : styles.counter}
+            className={overLimit ? styles.counterOver : styles.counter}
+            aria-live="polite"
+          >
+            {inputText.length} / {MAX_TOPIC} characters
+            {overLimit ? " — please shorten to 300 or fewer." : ""}
+          </p>
+        ) : (
+          <p
+            className={overLimit ? styles.counterOver : styles.counter}
             aria-live="polite"
           >
             {inputText.length.toLocaleString()} / {MAX_PASTE.toLocaleString()} characters
-            {overPaste ? " — please trim to 6,000 or fewer." : ""}
+            {overLimit ? " — please trim to 6,000 or fewer." : ""}
           </p>
-        ) : null}
+        )}
 
         {composerError ? (
           <p className={styles.error} role="alert">
             {composerError}
           </p>
         ) : null}
-        {tutorNotice ? (
-          <p className={styles.notice} role="status">
-            {tutorNotice}
-          </p>
-        ) : null}
 
-        {inputType === "paste" && limitReached ? (
+        {limitReached ? (
           <div className={styles.limitBox} role="status">
             <p>
               You&apos;ve used all {limit} sessions on the {planName} plan this
@@ -313,6 +341,19 @@ export default function DashboardView() {
           </button>
         )}
       </section>
+
+      {extraEmpty ? (
+        <section className={styles.block} aria-label="Personalise your tutor">
+          <h2 className={styles.blockTitle}>Personalise your tutor</h2>
+          <p className={styles.usageText}>
+            Add a few optional details so examples reflect your life. You can
+            edit or delete them anytime — no passwords, health or money details.
+          </p>
+          <Link className={`btn ${styles.personalBtn}`} href="/profile/edit">
+            Make my examples more personal
+          </Link>
+        </section>
+      ) : null}
 
       <section className={styles.block} aria-label="Your sessions">
         <h2 className={styles.blockTitle}>Your sessions</h2>
@@ -343,6 +384,9 @@ export default function DashboardView() {
                 <li key={s.id}>
                   <Link className={styles.sessionItem} href={`/session/${s.id}`}>
                     <span className={styles.sessionTitle}>
+                      <span className={styles.sessionTag}>
+                        {s.input_type === "topic" ? "Topic" : "Pasted"}
+                      </span>
                       {s.session_goal?.trim() || preview(s.input_text)}
                     </span>
                     <span className={styles.sessionMeta}>

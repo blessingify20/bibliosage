@@ -73,6 +73,25 @@
   font-size: var(--text-small);
 }
 
+.modeLabel {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--sage-tint);
+  border: 1px dashed #c4d0bd;
+  color: var(--clay);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.msgLabel {
+  align-self: flex-start;
+  margin-bottom: 2px;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
 /* ---------- thread ---------- */
 .thread {
   display: flex;
@@ -305,6 +324,49 @@
   color: var(--ink-soft);
   font-size: var(--text-small);
   line-height: 1.55;
+}
+
+.books {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.booksTitle {
+  font-size: 1.0625rem;
+  color: var(--forest);
+}
+
+.bookList {
+  margin-top: 12px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  color: var(--ink);
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
+.bookTitle {
+  font-weight: 600;
+}
+
+.bookAuthor {
+  color: var(--ink-soft);
+}
+
+.booksEmpty {
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+
+.booksNote {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
 }
 
 .saveRow {
